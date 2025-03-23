@@ -1,0 +1,15 @@
+{
+
+  "compilerOptions": {
+    "jsx": "react-jsx",  // Enables JSX support for React 17+ (use "react" for React 16 or earlier)
+    "lib": ["DOM", "ESNext"],  // Ensures browser APIs and latest ECMAScript features are available
+    "types": ["react", "react-dom"],  // Includes React types to resolve JSX.Element error
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src"],  // Ensures TypeScript scans your source files
+  "exclude": ["node_modules", "dist"]  // Exclude unnecessary files
+
+}
