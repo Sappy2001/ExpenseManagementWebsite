@@ -15,25 +15,28 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
-import React from "react";
 
-//defining formSchema
-const formSchema = z.object({
-	username: z.string().min(5, {
-		message: "Minimum length is 5",
-	}),
-	password: z.string().min(8, {
-		message: "passowrd length minimum 8 ",
-	}),
-	email: z
-		.string()
-		.email({ message: "Invalid email" })
-		.regex(/(\.com|\.in|\.co)$/, {
-			message: "Invalid email",
+import supabase from "../components/db/Supabase";
+
+const FormComponent = ({ type }) => {
+	//defining formSchema
+	const formSchema = z.object({
+		password: z.string().min(8, {
+			message: "passowrd length minimum 8 ",
 		}),
-});
+		email: z
+			.string()
+			.email({ message: "Invalid email" })
+			.regex(/(\.com|\.in|\.co)$/, {
+				message: "Invalid email",
+			}),
+		...(type === "Signup" && {
+			username: z.string().min(5, {
+				message: "Minimum length is 5",
+			}),
+		}),
+	});
 
-const FormComponent = () => {
 	const [show, setShow] = useState(false);
 
 	//initializing react-form
@@ -42,35 +45,67 @@ const FormComponent = () => {
 		resolver: zodResolver(formSchema),
 		//initial value
 		defaultValues: {
-			username: "",
 			email: "",
 			password: "",
+			...(type === "Signup" && { username: "" }),
 		},
 	});
 
-	const onSubmit = () => {};
+	const onSubmit = async ({ username, email, password }) => {
+		console.log(username, email, password);
+		let response;
+		if (type === "Login") {
+			response = await supabase.auth.signInWithPassword({
+				email,
+				password,
+			});
+		}
+		if (type === "Signup") {
+			response = await supabase.auth.signUp({
+				email,
+				password,
+				options: {
+					data: {
+						username,
+					},
+				},
+			});
+		}
+
+		if (response.error) {
+			console.error("Authentication error:", response.error.message);
+		} else {
+			localStorage.setItem("user", response.data.user.id);
+			console.log("Authentication Successful");
+			window.dispatchEvent(new Event("userUpdated"));
+		}
+	};
 	return (
 		//spreading the useForm obj-(control,state,errors,handleSubmit)
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 m-2">
-				<FormField
-					// control connects react-form with shadCN
-					control={form.control}
-					//username from zod forSchema & defaultValues
-					name="username"
-					//obj form reactFrom to handle input(value,onChange,blur)
-					render={({ field }) => (
-						//container to wrap
-						<FormItem>
-							<FormLabel>Username</FormLabel>
-							<FormControl>
-								<Input placeholder="enter name" {...field} classname="mt-2" />
-							</FormControl>
-							{/*FormMessage- displays error message */}
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+				{type === "Signup" ? (
+					<FormField
+						// control connects react-form with shadCN
+						control={form.control}
+						//username from zod forSchema & defaultValues
+						name="username"
+						//obj form reactFrom to handle input(value,onChange,blur)
+						render={({ field }) => (
+							//container to wrap
+							<FormItem>
+								<FormLabel>Username</FormLabel>
+								<FormControl>
+									<Input placeholder="enter name" {...field} classname="mt-2" />
+								</FormControl>
+								{/*FormMessage- displays error message */}
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+				) : (
+					<></>
+				)}
 				<FormField
 					// control connects react-form with shadCN
 					control={form.control}
