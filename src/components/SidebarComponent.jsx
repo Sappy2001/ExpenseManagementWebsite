@@ -68,23 +68,22 @@ export default function SidebarCompomnent() {
 								</Link>
 							))}
 						</div>
-					</div>
-					<div>
-						<SidebarLink
-							link={{
-								label: "Saptangsu Modak",
-								href: "#",
-								icon: (
-									<img
-										src="https://avatars.githubusercontent.com/u/93383179?s=400&u=7a71f9ef675acbd2c6548326ea3c5300f455b771&v=4"
-										className="h-7 w-7 shrink-0 rounded-full"
-										width={50}
-										height={50}
-										alt="Avatar"
-									/>
-								),
-							}}
-						/>
+						<div className="mt-8 flex flex-col gap-2">
+							<Link
+								to="https://www.linkedin.com/in/saptangsu-modak-9b7075183/"
+								className="flex items-center space-x-3  py-2 text-sm font-medium rounded-md hover:bg-gray-200 dark:hover:bg-gray-700"
+								target="_blank"
+							>
+								<img
+									src="https://avatars.githubusercontent.com/u/93383179?s=400&u=7a71f9ef675acbd2c6548326ea3c5300f455b771&v=4"
+									className="h-7 w-7 shrink-0 rounded-ful mr-2"
+									width={50}
+									height={50}
+									alt="Avatar"
+								/>
+								<span>{"Saptangsu Modak"}</span>
+							</Link>
+						</div>
 					</div>
 				</SidebarBody>
 			</Sidebar>
