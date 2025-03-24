@@ -7,16 +7,17 @@ import {
 	IconSettings,
 	IconUserBolt,
 } from "@tabler/icons-react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { cn } from "../utils/cn";
 import Dashboard from "./Dashboard";
+import { Outlet } from "react-router";
 
 export default function SidebarCompomnent() {
 	const links = [
 		{
 			label: "Dashboard",
-			href: "#",
+			to: "/dashboard",
 			icon: (
 				<IconBrandTabler className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
 			),
@@ -29,8 +30,8 @@ export default function SidebarCompomnent() {
 			),
 		},
 		{
-			label: "Settings",
-			href: "#",
+			label: "Home",
+			to: "/",
 			icon: (
 				<IconSettings className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
 			),
@@ -48,7 +49,7 @@ export default function SidebarCompomnent() {
 		<div
 			className={cn(
 				"mx-auto flex w-full flex-1 flex-col overflow-hidden rounded-md border border-neutral-200 bg-gray-100 md:flex-row dark:border-neutral-700 dark:bg-neutral-800",
-				"h-[87vh]"
+				""
 			)}
 		>
 			<Sidebar open={open} setOpen={setOpen}>
@@ -57,7 +58,14 @@ export default function SidebarCompomnent() {
 						{open ? <Logo /> : <LogoIcon />}
 						<div className="mt-8 flex flex-col gap-2">
 							{links.map((link, idx) => (
-								<SidebarLink key={idx} link={link} />
+								<Link
+									key={idx}
+									to={link.to}
+									className="flex items-center space-x-3  py-2 text-sm font-medium rounded-md hover:bg-gray-200 dark:hover:bg-gray-700"
+								>
+									<span className="m-2">{link.icon}</span>
+									{link.label}
+								</Link>
 							))}
 						</div>
 					</div>
@@ -80,7 +88,7 @@ export default function SidebarCompomnent() {
 					</div>
 				</SidebarBody>
 			</Sidebar>
-			<Dashboard />
+			<Outlet />
 		</div>
 	);
 }
