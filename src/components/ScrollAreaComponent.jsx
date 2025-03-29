@@ -3,12 +3,16 @@ import { useEffect, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { DrawerComponent } from "./DrawerComponent";
+import Auth from "./db/Auth";
+import TransactionComponent from "./ui/TransactionComponent";
 export default function ScrollAreaComponent() {
 	const [transactions, setTransactions] = useState([]);
 	useEffect(() => {
 		getTransactions();
 	}, []);
-
+	const [open, setOpen] = useState(false);
+	const content = "Enter Transaction Details";
 	async function getTransactions() {
 		try {
 			const response = await fetch(
@@ -22,12 +26,22 @@ export default function ScrollAreaComponent() {
 			console.log("Error occured " + err);
 		}
 	}
+	const addTransaction = (value) => {
+		setTransactions((prev) => [value, ...prev]);
+	};
+	useEffect(() => {
+		console.log("Updated transactions:", transactions);
+	}, [transactions]);
 
 	return (
 		<ScrollArea className="  w-full rounded-md border p-2 px-4 md:h-80 md:max-w-[40%]">
 			<div className="flex justify-between items-center my-2">
 				<h4 className=" text-xl font-medium leading-none m-3 ">Transactions</h4>
-				<Button variant="outline" className="!border-blue-300 !border-2">
+				<Button
+					variant="outline"
+					className="!border-blue-300 !border-2"
+					onClick={() => setOpen(true)}
+				>
 					+
 				</Button>
 			</div>
@@ -50,6 +64,12 @@ export default function ScrollAreaComponent() {
 					<Separator className="my-1" />
 				</>
 			))}
+			<DrawerComponent text={content} open={open} setOpen={setOpen}>
+				<TransactionComponent
+					setOpen={setOpen}
+					addTransaction={addTransaction}
+				/>
+			</DrawerComponent>
 		</ScrollArea>
 	);
 }

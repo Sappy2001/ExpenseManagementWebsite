@@ -57,7 +57,11 @@ export function CarouselComponent() {
 			</CarouselContent>
 			<CarouselPrevious />
 			<CarouselNext />
-			<DrawerComponent open={open} setOpen={setOpen}>
+			<DrawerComponent
+				open={open}
+				setOpen={setOpen}
+				text={"Add Your Card Details"}
+			>
 				<PaymentForm onSave={handleCardDetails} />
 			</DrawerComponent>
 		</Carousel>

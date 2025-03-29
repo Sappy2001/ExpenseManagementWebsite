@@ -30,14 +30,7 @@ export function DrawerComponent({ children, open, setOpen, text }) {
 				<DialogTrigger asChild></DialogTrigger>
 				<DialogContent className="sm:max-w-[425px]">
 					<DialogHeader>
-						<DialogTitle>{text ? text : "Add Your Card"}</DialogTitle>
-						{!text ? (
-							<DialogDescription>
-								Enter your card details to track savings and expenses
-							</DialogDescription>
-						) : (
-							<></>
-						)}
+						{text ? <DialogTitle>{text}</DialogTitle> : <></>}
 					</DialogHeader>
 					{children}
 				</DialogContent>
