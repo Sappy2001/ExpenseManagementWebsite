@@ -27,7 +27,7 @@ const Navbar = ({ setAuthCheck }) => {
 	}, [user]);
 	useEffect(() => {
 		if (!user) {
-			console.log("triigered");
+			console.log("trigered");
 			navigate("/");
 		}
 	}, [user, navigate]);

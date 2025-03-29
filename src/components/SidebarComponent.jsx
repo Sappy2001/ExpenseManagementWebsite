@@ -22,25 +22,12 @@ export default function SidebarCompomnent() {
 				<IconBrandTabler className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
 			),
 		},
-		{
-			label: "Profile",
-			href: "#",
-			icon: (
-				<IconUserBolt className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
-			),
-		},
+
 		{
 			label: "Home",
 			to: "/",
 			icon: (
 				<IconSettings className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
-			),
-		},
-		{
-			label: "Logout",
-			href: "#",
-			icon: (
-				<IconArrowLeft className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
 			),
 		},
 	];
@@ -67,6 +54,21 @@ export default function SidebarCompomnent() {
 									{link.label}
 								</Link>
 							))}
+							<Link
+								key={links.length}
+								to={"/"}
+								onClick={() => {
+									localStorage.removeItem("user");
+									//triggers a global event , changes in localStorage
+									window.dispatchEvent(new Event("userUpdated"));
+								}}
+								className="flex items-center space-x-3  py-2 text-sm font-medium rounded-md hover:bg-gray-200 dark:hover:bg-gray-700"
+							>
+								<span className="m-2">
+									<IconArrowLeft className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+								</span>
+								Logout
+							</Link>
 						</div>
 						<div className="mt-8 flex flex-col gap-2">
 							<Link
